@@ -1,0 +1,112 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text, #0f172a);
+  letter-spacing: -0.01em;
+}
+
+.chartWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 12px rgba(15, 23, 42, 0.06));
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.chartWrap:hover {
+  filter: drop-shadow(0 8px 24px rgba(15, 23, 42, 0.12));
+  transform: translateY(-2px);
+}
+
+.svg {
+  display: block;
+}
+
+.segment {
+  fill: none;
+  stroke-linecap: butt;
+  transform-origin: center;
+  animation: donutGrow 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+  animation-delay: var(--donut-delay, 0ms);
+}
+
+@keyframes donutGrow {
+  from {
+    stroke-dasharray: 0 var(--donut-circ, 1000);
+  }
+  to {
+    stroke-dasharray: var(--donut-arc, 0) var(--donut-circ, 1000);
+  }
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  padding: 12%;
+}
+
+.centerValue {
+  font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+  font-weight: 700;
+  color: var(--color-text, #0f172a);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.centerLabel {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-muted, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+  max-width: 100%;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-text, #334155);
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
+}
+
+.legendLabel {
+  font-weight: 500;
+}
+
+.legendValue {
+  color: var(--color-muted, #64748b);
+  font-variant-numeric: tabular-nums;
+}

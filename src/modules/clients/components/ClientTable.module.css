@@ -1,0 +1,18 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.deleteBtn {
+  color: var(--color-danger, #ef4444) !important;
+}
+
+.deleteBtn:hover {
+  background-color: var(--color-danger-light, #fef2f2) !important;
+}

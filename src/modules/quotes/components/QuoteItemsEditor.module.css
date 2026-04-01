@@ -1,0 +1,179 @@
+.container {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text, #1f2937);
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.itemCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--color-gray-50, #f9fafb);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.itemCard:hover {
+  border-color: var(--color-gray-300, #d1d5db);
+}
+
+.itemNumber {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  background: var(--color-primary, #3b82f6);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.numberFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+  grid-column: 1 / -1;
+}
+
+.subtotalDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-primary-50, #eff6ff);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary, #3b82f6);
+  white-space: nowrap;
+}
+
+.subtotalLabel {
+  font-weight: 400;
+  color: var(--color-text-secondary, #6b7280);
+  margin-right: 0.5rem;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--color-gray-400, #9ca3af);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.removeBtn:hover {
+  background: var(--color-danger-50, #fef2f2);
+  color: var(--color-danger, #ef4444);
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+  border: 2px dashed var(--color-border, #e5e7eb);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-primary, #3b82f6);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addBtn:hover {
+  border-color: var(--color-primary, #3b82f6);
+  background: var(--color-primary-50, #eff6ff);
+}
+
+.grandTotal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-gray-100, #f3f4f6);
+  border-radius: 8px;
+}
+
+.grandTotalLabel {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.grandTotalValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text, #1f2937);
+}
+
+.error {
+  font-size: 0.8125rem;
+  color: var(--color-danger, #ef4444);
+  margin-top: 0.25rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--color-text-secondary, #6b7280);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .itemCard {
+    grid-template-columns: 1fr;
+  }
+
+  .numberFields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .subtotalDisplay {
+    grid-column: 1 / -1;
+  }
+}

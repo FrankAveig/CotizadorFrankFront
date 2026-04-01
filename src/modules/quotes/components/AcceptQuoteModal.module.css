@@ -1,0 +1,176 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.modeToggle {
+  display: flex;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modeBtn {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modeBtn:first-child {
+  border-right: 1px solid var(--color-border, #e5e7eb);
+}
+
+.modeBtnActive {
+  composes: modeBtn;
+  background: var(--color-primary, #3b82f6);
+  color: #fff;
+}
+
+.typeLabel {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.typeFull {
+  composes: typeLabel;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.typePartial {
+  composes: typeLabel;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-gray-50, #f9fafb);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.itemRowSelected {
+  composes: itemRow;
+  background: var(--color-primary-50, #eff6ff);
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.itemCheckbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary, #3b82f6);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text, #1f2937);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemMeta {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, #6b7280);
+  margin-top: 0.125rem;
+}
+
+.itemSubtotal {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text, #374151);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.summaryBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  background: var(--color-gray-100, #f3f4f6);
+  border-radius: 8px;
+}
+
+.summaryLabel {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.summaryValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+  font-variant-numeric: tabular-nums;
+}
+
+.notesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notesLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.notesInput {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.2s ease;
+}
+
+.notesInput:focus {
+  outline: none;
+  border-color: var(--color-primary, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}

@@ -1,0 +1,29 @@
+.filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.searchWrap {
+  flex: 1;
+  min-width: 220px;
+}
+
+.selectWrap {
+  min-width: 180px;
+}
+
+@media (max-width: 640px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchWrap,
+  .selectWrap {
+    min-width: unset;
+    width: 100%;
+  }
+}

@@ -1,0 +1,96 @@
+.card {
+  background: var(--color-white, #ffffff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+}
+
+.fullyPaid {
+  border-color: var(--color-success, #22c55e);
+  background: #f0fdf4;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text, #111827);
+  margin: 0 0 1rem;
+}
+
+.amounts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text, #111827);
+}
+
+.paidValue {
+  color: var(--color-success, #22c55e);
+}
+
+.pendingValue {
+  color: var(--color-warning, #f59e0b);
+}
+
+.progressSection {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.progressLabel {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.progressPercent {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+}
+
+.fullyPaid .progressPercent {
+  color: var(--color-success, #22c55e);
+}
+
+.progressTrack {
+  width: 100%;
+  height: 8px;
+  background: var(--color-border, #e5e7eb);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--color-primary, #3b82f6);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progressComplete {
+  background: var(--color-success, #22c55e);
+}

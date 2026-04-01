@@ -1,0 +1,564 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--color-text-secondary, #6b7280);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.backBtn:hover {
+  border-color: var(--color-primary, #3b82f6);
+  color: var(--color-primary, #3b82f6);
+}
+
+/* Top info + financial summary grid */
+.topSection {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.infoValue {
+  font-size: 0.9375rem;
+  color: var(--color-text, #1f2937);
+}
+
+.descriptionBlock {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+.descriptionText {
+  margin: 0.375rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text, #374151);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* Financial summary */
+.financialSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--color-text, #374151);
+}
+
+.summaryRow span:last-child {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.discount {
+  color: var(--color-danger, #ef4444);
+}
+
+.totalRow {
+  padding-top: 0.75rem;
+  border-top: 2px solid var(--color-border, #e5e7eb);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text, #1f2937);
+}
+
+.totalRow span:last-child {
+  font-size: 1.125rem;
+}
+
+/* Items table header */
+.itemsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.itemsTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text, #1f2937);
+}
+
+.selectAllLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary, #6b7280);
+  user-select: none;
+}
+
+.selectAllLabel:hover {
+  color: var(--color-primary, #3b82f6);
+}
+
+/* Items custom table */
+.itemsTable {
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.itemsTableHead {
+  display: grid;
+  gap: 0;
+  padding: 0.625rem 1rem;
+  background: var(--color-gray-50, #f9fafb);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.itemRow {
+  display: grid;
+  gap: 0;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  align-items: center;
+  transition: background-color 0.15s ease;
+}
+
+.withCheck {
+  grid-template-columns: 40px 40px 1fr 70px 110px 110px;
+  cursor: pointer;
+}
+
+.noCheck {
+  grid-template-columns: 40px 1fr 70px 110px 110px;
+}
+
+.itemRow:last-child {
+  border-bottom: none;
+}
+
+.itemRow:hover {
+  background-color: var(--color-gray-50, #f9fafb);
+}
+
+.itemRowSelected {
+  background-color: #eff6ff;
+}
+
+.itemRowSelected:hover {
+  background-color: #dbeafe;
+}
+
+.colCheck,
+.colNum,
+.colQty,
+.colPrice,
+.colSubtotal {
+  display: flex;
+  align-items: center;
+}
+
+.colNum {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary, #6b7280);
+  font-weight: 500;
+}
+
+.colTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding-right: 1rem;
+}
+
+.itemName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text, #1f2937);
+}
+
+.itemDesc {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, #6b7280);
+  line-height: 1.4;
+}
+
+.colQty {
+  font-size: 0.875rem;
+  color: var(--color-text, #374151);
+  justify-content: center;
+}
+
+.colPrice,
+.colSubtotal {
+  font-size: 0.875rem;
+  color: var(--color-text, #374151);
+  font-variant-numeric: tabular-nums;
+  justify-content: flex-end;
+}
+
+.colSubtotal {
+  font-weight: 600;
+}
+
+.emptyItems {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-text-secondary, #6b7280);
+  font-size: 0.875rem;
+}
+
+/* Checkbox styles */
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkboxCustom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-border, #d1d5db);
+  border-radius: 4px;
+  background: #fff;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.checkboxCustom svg {
+  width: 12px;
+  height: 12px;
+  color: #fff;
+}
+
+.checkbox:checked + .checkboxCustom {
+  background: var(--color-primary, #3b82f6);
+  border-color: var(--color-primary, #3b82f6);
+}
+
+/* Accept section */
+.acceptSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+}
+
+.acceptInfo {
+  flex: 1;
+}
+
+.selectionSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.selectionCount {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.selectionTotal {
+  font-size: 0.9375rem;
+  color: var(--color-text, #1f2937);
+}
+
+.selectionTotal strong {
+  color: var(--color-primary, #2563eb);
+  font-size: 1.0625rem;
+}
+
+.acceptButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.acceptButtons button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Notes + docs */
+.notesText {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text, #374151);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.docList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.docItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--color-gray-50, #f9fafb);
+  border-radius: 6px;
+}
+
+.docInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text, #374151);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.docIcon {
+  color: var(--color-text-secondary, #6b7280);
+  flex-shrink: 0;
+}
+
+/* Confirm modal content */
+.confirmContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.confirmIcon {
+  display: flex;
+  justify-content: center;
+}
+
+.confirmText {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-text, #374151);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.confirmItemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--color-gray-50, #f9fafb);
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.confirmItemsLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.25rem;
+}
+
+.confirmItemRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0;
+}
+
+.confirmItemName {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--color-text, #1f2937);
+}
+
+.confirmItemPrice {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text, #1f2937);
+  font-variant-numeric: tabular-nums;
+}
+
+.confirmSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-gray-50, #f9fafb);
+  border-radius: 8px;
+}
+
+.confirmSummaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--color-text, #374151);
+}
+
+.confirmSummaryTotal {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.notesField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.notesFieldLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.notesInput {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--color-text, #374151);
+  resize: vertical;
+  transition: border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.notesInput:focus {
+  outline: none;
+  border-color: var(--color-primary, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.confirmActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+/* Error */
+.errorBox {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-danger, #ef4444);
+}
+
+.errorBox button {
+  margin-top: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .topSection {
+    grid-template-columns: 1fr;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .itemsTableHead,
+  .itemRow {
+    grid-template-columns: 36px 30px 1fr 50px 80px 80px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .acceptSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .acceptButtons {
+    flex-direction: column;
+  }
+
+  .acceptButtons button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .confirmActions {
+    flex-direction: column-reverse;
+  }
+
+  .confirmActions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .itemsTableHead,
+  .itemRow {
+    grid-template-columns: 30px 1fr 70px;
+  }
+
+  .colNum,
+  .colQty,
+  .colPrice {
+    display: none;
+  }
+}

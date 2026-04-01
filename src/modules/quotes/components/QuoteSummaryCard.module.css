@@ -1,0 +1,69 @@
+.card {
+  background: #fff;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 10px;
+  padding: 1.5rem;
+  min-width: 280px;
+}
+
+.title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text, #1f2937);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text, #374151);
+  font-variant-numeric: tabular-nums;
+}
+
+.discount .value {
+  color: var(--color-danger, #ef4444);
+}
+
+.tax .value {
+  color: var(--color-warning, #f59e0b);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+  margin: 0.75rem 0;
+}
+
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0 0;
+}
+
+.totalLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text, #1f2937);
+}
+
+.totalValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+  font-variant-numeric: tabular-nums;
+}

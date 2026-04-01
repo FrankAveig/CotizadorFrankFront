@@ -1,0 +1,37 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cardWrap {
+  background: #fff;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+}
+
+.readonlyNotice {
+  padding: 0.75rem 1rem;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #92400e;
+}
+
+.errorBox {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-danger, #ef4444);
+}
+
+.errorBox button {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .cardWrap {
+    padding: 1rem;
+  }
+}
