@@ -267,6 +267,9 @@ export default function ProjectDetailPage() {
       )}
 
       <ProjectPaymentsSummary
+        subtotal={project.subtotal}
+        taxRate={project.taxRate}
+        taxAmount={project.taxAmount}
         totalAmount={project.totalAmount}
         paidAmount={project.paidAmount}
         pendingAmount={project.pendingAmount}

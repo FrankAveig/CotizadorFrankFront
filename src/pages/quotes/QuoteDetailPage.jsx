@@ -20,6 +20,7 @@ import {
 } from '../../modules/quotes/services/quotes.service';
 import { useApp } from '../../context/AppContext';
 import { formatDate } from '../../core/utils/formatDate';
+import { formatCurrency } from '../../core/utils/formatCurrency';
 import styles from './QuoteDetailPage.module.css';
 
 export default function QuoteDetailPage() {
@@ -46,8 +47,15 @@ export default function QuoteDetailPage() {
         getQuoteItems(id),
         getQuoteDocuments(id).catch(() => ({ data: { data: [] } })),
       ]);
-      setQuote(quoteRes.data?.data || null);
-      setItems(itemsRes.data?.data || []);
+      const quoteData = quoteRes.data?.data || null;
+      const itemsFromList = itemsRes.data?.data || [];
+      const itemsFromQuote = quoteData?.items;
+      const mergedItems =
+        Array.isArray(itemsFromQuote) && itemsFromQuote.length > 0
+          ? itemsFromQuote
+          : itemsFromList;
+      setQuote(quoteData);
+      setItems(mergedItems);
       setDocuments(docsRes.data?.data || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Error al cargar la cotización');
@@ -273,9 +281,38 @@ export default function QuoteDetailPage() {
         />
       </div>
 
+      {quote.status === 'partially_accepted' && quote.acceptances?.length > 0 && (
+        <div className={styles.partialAcceptanceBanner}>
+          <h3 className={styles.partialAcceptanceTitle}>Aceptación parcial</h3>
+          <p className={styles.partialAcceptanceText}>
+            El cliente aceptó un subconjunto de ítems. El total aceptado fue{' '}
+            <strong>
+              {formatCurrency(quote.acceptances[0].acceptedTotalAmount)}
+            </strong>
+            {quote.acceptances[0].acceptedAt && (
+              <>
+                {' '}
+                el {formatDate(quote.acceptances[0].acceptedAt)}.
+              </>
+            )}
+          </p>
+          {quote.acceptances[0].notes && (
+            <p className={styles.partialAcceptanceNotes}>
+              <span className={styles.partialAcceptanceNotesLabel}>Notas del cliente:</span>{' '}
+              {quote.acceptances[0].notes}
+            </p>
+          )}
+        </div>
+      )}
+
       <div>
         <h3 className={styles.sectionTitle}>Ítems</h3>
-        <QuoteItemsTable items={items} />
+        <QuoteItemsTable
+          items={items}
+          emphasizeItemStatus={
+            quote.status === 'partially_accepted' || quote.status === 'fully_accepted'
+          }
+        />
       </div>
 
       <div className={styles.documentsSection}>

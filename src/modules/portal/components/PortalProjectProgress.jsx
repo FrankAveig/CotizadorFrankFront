@@ -2,13 +2,25 @@ import { formatCurrency } from '../../../core/utils/formatCurrency';
 import styles from './PortalProjectProgress.module.css';
 
 export default function PortalProjectProgress({
+  subtotal,
+  taxRate,
+  taxAmount,
   totalAmount,
   paidAmount,
   pendingAmount,
   paidPercentage,
-  isFullyPaid,
+  isFullyPaid = false,
 }) {
   const clampedPercent = Math.min(Math.max(paidPercentage || 0, 0), 100);
+  const sub = parseFloat(subtotal) || 0;
+  const tax = parseFloat(taxAmount) || 0;
+  const rate = parseFloat(taxRate);
+  const showSubtotal = sub > 0;
+  const showTax = tax > 0 || (!Number.isNaN(rate) && rate > 0);
+  const taxLabel =
+    !Number.isNaN(rate) && rate > 0
+      ? `Impuesto (${rate}%)`
+      : 'Impuesto';
 
   return (
     <div className={styles.card}>
@@ -25,6 +37,27 @@ export default function PortalProjectProgress({
         )}
       </div>
 
+      {(showSubtotal || showTax) && (
+        <div className={styles.breakdown}>
+          {showSubtotal && (
+            <div className={styles.breakdownRow}>
+              <span className={styles.breakdownLabel}>Subtotal</span>
+              <span className={styles.breakdownValue}>{formatCurrency(sub)}</span>
+            </div>
+          )}
+          {showTax && (
+            <div className={styles.breakdownRow}>
+              <span className={styles.breakdownLabel}>{taxLabel}</span>
+              <span className={styles.breakdownValue}>{formatCurrency(tax)}</span>
+            </div>
+          )}
+          <div className={`${styles.breakdownRow} ${styles.breakdownTotal}`}>
+            <span className={styles.breakdownLabel}>Total del proyecto</span>
+            <span className={styles.breakdownValue}>{formatCurrency(totalAmount)}</span>
+          </div>
+        </div>
+      )}
+
       <div className={styles.barContainer}>
         <div
           className={`${styles.barFill} ${isFullyPaid ? styles.barComplete : ''}`}
@@ -38,7 +71,7 @@ export default function PortalProjectProgress({
 
       <div className={styles.amounts}>
         <div className={styles.amountItem}>
-          <span className={styles.amountLabel}>Total del proyecto</span>
+          <span className={styles.amountLabel}>Total</span>
           <span className={styles.amountValue}>
             {formatCurrency(totalAmount)}
           </span>

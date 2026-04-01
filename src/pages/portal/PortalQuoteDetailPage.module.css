@@ -175,6 +175,88 @@
   grid-template-columns: 40px 1fr 70px 110px 110px;
 }
 
+.withCheck.withStatusCol {
+  grid-template-columns: 40px 40px 1fr 70px 110px 110px 100px;
+}
+
+.noCheck.withStatusCol {
+  grid-template-columns: 40px 1fr 70px 110px 110px 100px;
+}
+
+.colStatus {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.itemStatusBadge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.itemStatusBadgeAccepted {
+  background: #22c55e;
+}
+
+.itemStatusBadgeRejected {
+  background: #ef4444;
+}
+
+.itemStatusBadgePending {
+  background: #f59e0b;
+}
+
+.itemRowAccepted {
+  background-color: #f0fdf4;
+}
+
+.itemRowAccepted:hover {
+  background-color: #dcfce7;
+}
+
+.itemRowRejected {
+  background-color: #fef2f2;
+}
+
+.itemRowRejected:hover {
+  background-color: #fee2e2;
+}
+
+.partialAcceptanceBanner {
+  padding: 0.25rem 0;
+}
+
+.partialAcceptanceTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #b45309;
+}
+
+.partialAcceptanceText {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text, #374151);
+}
+
+.partialAcceptanceNotes {
+  margin: 0.75rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.partialAcceptanceNotesLabel {
+  font-weight: 600;
+  color: var(--color-text, #374151);
+}
+
 .itemRow:last-child {
   border-bottom: none;
 }
@@ -325,6 +407,14 @@
   font-size: 1.0625rem;
 }
 
+.partialHint {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #b45309;
+  max-width: 36rem;
+}
+
 .acceptButtons {
   display: flex;
   align-items: center;
@@ -385,6 +475,41 @@
   gap: 1.25rem;
 }
 
+.partialWarning {
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+}
+
+.partialWarning strong {
+  color: #78350f;
+}
+
+.rejectWarning {
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+}
+
+.rejectWarning strong {
+  color: #7f1d1d;
+}
+
+.rejectWarningText {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #b91c1c;
+}
+
 .confirmIcon {
   display: flex;
   justify-content: center;
@@ -398,6 +523,10 @@
   line-height: 1.5;
 }
 
+.confirmTextLeft {
+  text-align: left;
+}
+
 .confirmItemsList {
   display: flex;
   flex-direction: column;
@@ -405,7 +534,7 @@
   padding: 0.75rem;
   background: var(--color-gray-50, #f9fafb);
   border-radius: 8px;
-  max-height: 200px;
+  max-height: min(40vh, 280px);
   overflow-y: auto;
 }
 
@@ -421,8 +550,14 @@
 .confirmItemRow {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+  gap: 0.75rem;
   padding: 0.375rem 0;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+}
+
+.confirmItemRow:last-child {
+  border-bottom: none;
 }
 
 .confirmItemName {
@@ -525,6 +660,16 @@
     grid-template-columns: 36px 30px 1fr 50px 80px 80px;
     padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
+  }
+
+  .itemsTableHead.withStatusCol.withCheck,
+  .itemRow.withStatusCol.withCheck {
+    grid-template-columns: 36px 30px 1fr 50px 80px 80px 72px;
+  }
+
+  .itemsTableHead.withStatusCol.noCheck,
+  .itemRow.withStatusCol.noCheck {
+    grid-template-columns: 36px 1fr 50px 80px 80px 72px;
   }
 
   .acceptSection {

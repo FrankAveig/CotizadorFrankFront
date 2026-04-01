@@ -157,6 +157,39 @@
   margin-top: 0.75rem;
 }
 
+.partialAcceptanceBanner {
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid #fcd34d;
+  background: #fffbeb;
+  color: var(--color-text, #374151);
+}
+
+.partialAcceptanceTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #b45309;
+}
+
+.partialAcceptanceText {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.partialAcceptanceNotes {
+  margin: 0.75rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.partialAcceptanceNotesLabel {
+  font-weight: 600;
+  color: var(--color-text, #374151);
+}
+
 @media (max-width: 768px) {
   .topSection {
     grid-template-columns: 1fr;

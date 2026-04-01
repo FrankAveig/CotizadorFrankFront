@@ -32,6 +32,49 @@
   font-weight: var(--font-semibold);
 }
 
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--bg-secondary, #f8fafc);
+  border-radius: var(--border-radius-md, 8px);
+  border: 1px solid var(--border-color);
+}
+
+.breakdownRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-sm);
+}
+
+.breakdownLabel {
+  color: var(--text-secondary);
+}
+
+.breakdownValue {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdownTotal {
+  padding-top: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+  border-top: 1px solid var(--border-color);
+}
+
+.breakdownTotal .breakdownLabel {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.breakdownTotal .breakdownValue {
+  font-size: var(--text-lg);
+}
+
 .barContainer {
   width: 100%;
   height: 10px;

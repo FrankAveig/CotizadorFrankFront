@@ -12,3 +12,6 @@ export const getPortalQuoteById = (id) =>
 
 export const acceptPortalQuote = (id, data) =>
   portalApi.post(PORTAL_ENDPOINTS.QUOTES.ACCEPT(id), data);
+
+export const rejectPortalQuote = (id, data) =>
+  portalApi.post(PORTAL_ENDPOINTS.QUOTES.REJECT(id), data);

@@ -3,8 +3,9 @@ import { ITEM_STATUSES } from '../../../core/constants/statuses';
 import styles from './QuoteItemsTable.module.css';
 
 const getStatusLabel = (status) => {
+  if (!status) return ITEM_STATUSES.PENDING.label;
   const found = Object.values(ITEM_STATUSES).find((s) => s.value === status);
-  return found ? found.label : status || '—';
+  return found ? found.label : status;
 };
 
 const getStatusColor = (status) => {
@@ -16,7 +17,7 @@ const getStatusColor = (status) => {
   return map[status] || '#6b7280';
 };
 
-const QuoteItemsTable = ({ items = [] }) => {
+const QuoteItemsTable = ({ items = [], emphasizeItemStatus = false }) => {
   if (!items.length) {
     return (
       <div className={styles.wrapper}>
@@ -26,6 +27,9 @@ const QuoteItemsTable = ({ items = [] }) => {
   }
 
   const total = items.reduce((sum, item) => {
+    if (item.subtotal != null && item.subtotal !== '') {
+      return sum + (parseFloat(item.subtotal) || 0);
+    }
     const qty = parseFloat(item.quantity) || 0;
     const price = parseFloat(item.unitPrice) || 0;
     return sum + qty * price;
@@ -49,10 +53,19 @@ const QuoteItemsTable = ({ items = [] }) => {
           {items.map((item, index) => {
             const qty = parseFloat(item.quantity) || 0;
             const price = parseFloat(item.unitPrice) || 0;
-            const subtotal = qty * price;
+            const subtotal =
+              item.subtotal != null && item.subtotal !== ''
+                ? parseFloat(item.subtotal) || 0
+                : qty * price;
+            const rowClass =
+              emphasizeItemStatus && item.status === 'accepted'
+                ? styles.rowAccepted
+                : emphasizeItemStatus && item.status === 'rejected'
+                  ? styles.rowRejected
+                  : '';
 
             return (
-              <tr key={item.id || index}>
+              <tr key={item.id || index} className={rowClass}>
                 <td className={styles.td}>{index + 1}</td>
                 <td className={styles.td}>{item.title}</td>
                 <td className={styles.td}>

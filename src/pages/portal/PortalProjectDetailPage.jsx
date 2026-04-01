@@ -220,10 +220,14 @@ export default function PortalProjectDetailPage() {
       </div>
 
       <PortalProjectProgress
+        subtotal={project.subtotal}
+        taxRate={project.taxRate}
+        taxAmount={project.taxAmount}
         totalAmount={project.totalAmount}
         paidAmount={project.paidAmount}
         pendingAmount={project.pendingAmount}
         paidPercentage={project.paidPercentage}
+        isFullyPaid={project.isFullyPaid}
       />
 
       <Card title="Ítems del Proyecto">

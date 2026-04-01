@@ -9,6 +9,7 @@ export const PORTAL_ENDPOINTS = {
     BASE: '/quotes',
     BY_ID: (id) => `/quotes/${id}`,
     ACCEPT: (id) => `/quotes/${id}/accept`,
+    REJECT: (id) => `/quotes/${id}/reject`,
   },
   PROJECTS: {
     BASE: '/projects',

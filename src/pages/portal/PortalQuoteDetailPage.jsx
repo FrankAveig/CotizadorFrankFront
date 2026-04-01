@@ -7,11 +7,18 @@ import Loader from '../../components/ui/Loader';
 import Modal from '../../components/ui/Modal';
 import QuoteStatusBadge from '../../modules/quotes/components/QuoteStatusBadge';
 import PortalDocumentDownloadButton from '../../modules/portal/components/PortalDocumentDownloadButton';
-import { getPortalQuoteById, acceptPortalQuote } from '../../modules/portal/services/portal-quotes.service';
+import { getPortalQuoteById, acceptPortalQuote, rejectPortalQuote } from '../../modules/portal/services/portal-quotes.service';
 import { useApp } from '../../context/AppContext';
 import { formatCurrency } from '../../core/utils/formatCurrency';
 import { formatDate } from '../../core/utils/formatDate';
+import { ITEM_STATUSES } from '../../core/constants/statuses';
 import styles from './PortalQuoteDetailPage.module.css';
+
+const quoteItemStatusLabel = (status) => {
+  const found = Object.values(ITEM_STATUSES).find((s) => s.value === status);
+  if (found) return found.label;
+  return status || 'Pendiente';
+};
 
 const CAN_ACCEPT_STATUSES = ['issued', 'sent', 'viewed'];
 
@@ -27,6 +34,7 @@ export default function PortalQuoteDetailPage() {
   const [actionLoading, setActionLoading] = useState(false);
   const [confirmModal, setConfirmModal] = useState({ open: false, type: null });
   const [acceptNotes, setAcceptNotes] = useState('');
+  const [rejectNotes, setRejectNotes] = useState('');
 
   const fetchQuote = useCallback(async () => {
     try {
@@ -56,6 +64,11 @@ export default function PortalQuoteDetailPage() {
   }, [items, selectedItemIds]);
 
   const allSelected = items.length > 0 && selectedItemIds.size === items.length;
+  /** Hay ítems marcados pero no todos: solo aceptación parcial hasta que desmarque o marque todos */
+  const partialSelectionActive =
+    items.length > 0 &&
+    selectedItemIds.size > 0 &&
+    selectedItemIds.size < items.length;
 
   const handleToggleItem = useCallback((itemId) => {
     setSelectedItemIds((prev) => {
@@ -85,6 +98,12 @@ export default function PortalQuoteDetailPage() {
   const closeConfirmModal = () => {
     setConfirmModal({ open: false, type: null });
     setAcceptNotes('');
+    setRejectNotes('');
+  };
+
+  const openRejectModal = () => {
+    setConfirmModal({ open: true, type: 'reject' });
+    setRejectNotes('');
   };
 
   const handleConfirmAccept = async () => {
@@ -118,6 +137,22 @@ export default function PortalQuoteDetailPage() {
     }
   };
 
+  const handleConfirmReject = async () => {
+    try {
+      setActionLoading(true);
+      await rejectPortalQuote(id, {
+        notes: rejectNotes.trim() || undefined,
+      });
+      closeConfirmModal();
+      addNotification('success', 'Has rechazado esta cotización.');
+      fetchQuote();
+    } catch (err) {
+      addNotification('error', err.response?.data?.message || 'Error al rechazar la cotización');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   if (loading) return <Loader fullPage />;
 
   if (error) {
@@ -133,8 +168,15 @@ export default function PortalQuoteDetailPage() {
 
   if (!quote) return null;
 
+  const showItemAcceptanceStatus = ['partially_accepted', 'fully_accepted'].includes(quote.status);
+  const lastPartialAcceptance =
+    quote.status === 'partially_accepted' && quote.acceptances?.length
+      ? quote.acceptances[quote.acceptances.length - 1]
+      : null;
+
   const confirmingFull = confirmModal.open && confirmModal.type === 'full';
   const confirmingPartial = confirmModal.open && confirmModal.type === 'partial';
+  const confirmingReject = confirmModal.open && confirmModal.type === 'reject';
   const selectedItemsForConfirm = items.filter((item) => selectedItemIds.has(item.id));
 
   return (
@@ -216,6 +258,27 @@ export default function PortalQuoteDetailPage() {
         </Card>
       </div>
 
+      {lastPartialAcceptance && (
+        <Card>
+          <div className={styles.partialAcceptanceBanner}>
+            <h3 className={styles.partialAcceptanceTitle}>Aceptación parcial</h3>
+            <p className={styles.partialAcceptanceText}>
+              Aceptaste ítems por un total de{' '}
+              <strong>{formatCurrency(lastPartialAcceptance.acceptedTotalAmount)}</strong>
+              {lastPartialAcceptance.acceptedAt && (
+                <> el {formatDate(lastPartialAcceptance.acceptedAt)}.</>
+              )}
+            </p>
+            {lastPartialAcceptance.notes && (
+              <p className={styles.partialAcceptanceNotes}>
+                <span className={styles.partialAcceptanceNotesLabel}>Tus notas:</span>{' '}
+                {lastPartialAcceptance.notes}
+              </p>
+            )}
+          </div>
+        </Card>
+      )}
+
       {/* Items with checkboxes */}
       <Card>
         <div className={styles.itemsHeader}>
@@ -241,13 +304,18 @@ export default function PortalQuoteDetailPage() {
         </div>
 
         <div className={styles.itemsTable}>
-          <div className={`${styles.itemsTableHead} ${canAccept ? styles.withCheck : styles.noCheck}`}>
+          <div
+            className={`${styles.itemsTableHead} ${canAccept ? styles.withCheck : styles.noCheck} ${showItemAcceptanceStatus ? styles.withStatusCol : ''}`}
+          >
             {canAccept && <div className={styles.colCheck} />}
             <div className={styles.colNum}>#</div>
             <div className={styles.colTitle}>Descripción</div>
             <div className={styles.colQty}>Cant.</div>
             <div className={styles.colPrice}>P. Unitario</div>
             <div className={styles.colSubtotal}>Subtotal</div>
+            {showItemAcceptanceStatus && (
+              <div className={styles.colStatus}>Resultado</div>
+            )}
           </div>
 
           {items.length === 0 && (
@@ -256,10 +324,17 @@ export default function PortalQuoteDetailPage() {
 
           {items.map((item, idx) => {
             const isSelected = selectedItemIds.has(item.id);
+            const itemStatus = item.status || 'pending';
+            const rowOutcomeClass =
+              showItemAcceptanceStatus && itemStatus === 'accepted'
+                ? styles.itemRowAccepted
+                : showItemAcceptanceStatus && itemStatus === 'rejected'
+                  ? styles.itemRowRejected
+                  : '';
             return (
               <div
                 key={item.id}
-                className={`${styles.itemRow} ${canAccept ? styles.withCheck : styles.noCheck} ${isSelected ? styles.itemRowSelected : ''}`}
+                className={`${styles.itemRow} ${canAccept ? styles.withCheck : styles.noCheck} ${showItemAcceptanceStatus ? styles.withStatusCol : ''} ${isSelected ? styles.itemRowSelected : ''} ${rowOutcomeClass}`}
                 onClick={canAccept ? () => handleToggleItem(item.id) : undefined}
               >
                 {canAccept && (
@@ -291,6 +366,21 @@ export default function PortalQuoteDetailPage() {
                 <div className={styles.colQty}>{parseFloat(item.quantity) || 0}</div>
                 <div className={styles.colPrice}>{formatCurrency(item.unitPrice)}</div>
                 <div className={styles.colSubtotal}>{formatCurrency(item.subtotal)}</div>
+                {showItemAcceptanceStatus && (
+                  <div className={styles.colStatus}>
+                    <span
+                      className={`${styles.itemStatusBadge} ${
+                        itemStatus === 'accepted'
+                          ? styles.itemStatusBadgeAccepted
+                          : itemStatus === 'rejected'
+                            ? styles.itemStatusBadgeRejected
+                            : styles.itemStatusBadgePending
+                      }`}
+                    >
+                      {quoteItemStatusLabel(item.status)}
+                    </span>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -309,6 +399,12 @@ export default function PortalQuoteDetailPage() {
                 <span className={styles.selectionTotal}>
                   Total seleccionado: <strong>{formatCurrency(selectedTotal)}</strong>
                 </span>
+                {partialSelectionActive && (
+                  <span className={styles.partialHint}>
+                    «Aceptar todo» está desactivado mientras tenga una selección parcial.
+                    Use «Aceptar seleccionados» o marque todos los ítems.
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -316,24 +412,28 @@ export default function PortalQuoteDetailPage() {
             <Button
               variant="primary"
               onClick={() => openConfirmModal('full')}
-              disabled={actionLoading}
+              disabled={actionLoading || partialSelectionActive}
+              title={
+                partialSelectionActive
+                  ? 'Desmarca ítems o usa «Seleccionar todos» para aceptar la cotización completa.'
+                  : undefined
+              }
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              Aceptar Todo
+              Aceptar todo
             </Button>
             <Button
               variant="secondary"
               onClick={() => openConfirmModal('partial')}
               disabled={actionLoading || selectedItemIds.size === 0}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 11 12 14 22 4" />
-                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-              </svg>
-              Aceptar Seleccionados ({selectedItemIds.size})
+              Aceptar seleccionados ({selectedItemIds.size})
+            </Button>
+            <Button
+              variant="danger"
+              onClick={openRejectModal}
+              disabled={actionLoading}
+            >
+              Rechazar cotización
             </Button>
           </div>
         </div>
@@ -422,27 +522,22 @@ export default function PortalQuoteDetailPage() {
       <Modal
         isOpen={confirmingPartial}
         onClose={closeConfirmModal}
-        title="Confirmar Aceptación Parcial"
-        size="md"
+        title="Revisar aceptación parcial"
+        size="lg"
       >
         <div className={styles.confirmContent}>
-          <div className={styles.confirmIcon}>
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" stroke="#f59e0b" strokeWidth="2.5" fill="#fffbeb" />
-              <path d="M15 24l6 6 12-12" stroke="#f59e0b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <div className={styles.partialWarning} role="alert">
+            <strong>Importante:</strong> solo se incluirán en el proyecto los ítems que aparecen abajo.
+            El resto de la cotización <strong>no</strong> quedará aceptado. Revise la lista y el total antes de confirmar.
           </div>
-          <p className={styles.confirmText}>
-            Está a punto de aceptar <strong>{selectedItemIds.size} de {items.length} ítems</strong> de esta cotización.
-            Los ítems no seleccionados serán rechazados.
+          <p className={`${styles.confirmText} ${styles.confirmTextLeft}`}>
+            Va a aceptar <strong>{selectedItemIds.size} de {items.length} ítems</strong>.
+            Los ítems no incluidos en esta lista no formarán parte del proyecto.
           </p>
           <div className={styles.confirmItemsList}>
-            <span className={styles.confirmItemsLabel}>Ítems a aceptar:</span>
+            <span className={styles.confirmItemsLabel}>Ítems que quedarán aceptados</span>
             {selectedItemsForConfirm.map((item) => (
               <div key={item.id} className={styles.confirmItemRow}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M3 7l3 3 5-5" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
                 <span className={styles.confirmItemName}>{item.title}</span>
                 <span className={styles.confirmItemPrice}>{formatCurrency(item.subtotal)}</span>
               </div>
@@ -477,7 +572,46 @@ export default function PortalQuoteDetailPage() {
               Cancelar
             </Button>
             <Button variant="primary" onClick={handleConfirmAccept} loading={actionLoading}>
-              Confirmar Aceptación Parcial
+              Confirmar aceptación parcial
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Reject quote modal */}
+      <Modal
+        isOpen={confirmingReject}
+        onClose={closeConfirmModal}
+        title="Rechazar cotización"
+        size="md"
+      >
+        <div className={styles.confirmContent}>
+          <div className={styles.rejectWarning} role="alert">
+            <strong>¿Seguro que desea rechazar esta cotización?</strong>
+            <p className={styles.rejectWarningText}>
+              Esta acción indica que no acepta la propuesta. No se creará ningún proyecto a partir de esta cotización.
+            </p>
+          </div>
+          <div className={styles.notesField}>
+            <label className={styles.notesFieldLabel} htmlFor="reject-notes">
+              Motivo del rechazo (opcional, máx. 2000 caracteres)
+            </label>
+            <textarea
+              id="reject-notes"
+              className={styles.notesInput}
+              rows={4}
+              value={rejectNotes}
+              onChange={(e) => setRejectNotes(e.target.value)}
+              placeholder="Ej.: presupuesto, plazos, alcance…"
+              maxLength={2000}
+            />
+          </div>
+          <div className={styles.confirmActions}>
+            <Button variant="ghost" onClick={closeConfirmModal} disabled={actionLoading}>
+              Cancelar
+            </Button>
+            <Button variant="danger" onClick={handleConfirmReject} loading={actionLoading}>
+              Confirmar rechazo
             </Button>
           </div>
         </div>
